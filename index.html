@@ -8,6 +8,10 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Yanone+Kaffeesatz:200" rel="stylesheet">
     <style>
+<<<<<<< HEAD
+=======
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
       body {
         margin: 0;
         background-color: #2A2C39;
@@ -50,6 +54,7 @@
       // Define size of map group
       // Full world map is 2:1 ratio
       // Using 12:5 because we will crop top and bottom of map
+<<<<<<< HEAD
       //w = 3000;
       //h = 1250;
 	  w = 2500;
@@ -57,6 +62,14 @@
       // variables for catching min and max zoom factors
       var minZoom;
       var maxZoom;
+=======
+      w = 3000;
+      h = 1250;
+      // variables for catching min and max zoom factors
+      var minZoom;
+      var maxZoom;
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
       // DEFINE FUNCTIONS/OBJECTS
       // Define map projection
       var projection = d3
@@ -65,11 +78,19 @@
         .scale([w / (2 * Math.PI)]) // scale to fit group width
         .translate([w / 2, h / 2]) // ensure centred in group
       ;
+<<<<<<< HEAD
+=======
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
       // Define map path
       var path = d3
         .geoPath()
         .projection(projection)
       ;
+<<<<<<< HEAD
+=======
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
       // Create function to apply zoom to countriesGroup
       function zoomed() {
         t = d3
@@ -80,11 +101,19 @@
           .attr("transform","translate(" + [t.x, t.y] + ")scale(" + t.k + ")")
         ;
       }
+<<<<<<< HEAD
+=======
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
       // Define map zoom behaviour
       var zoom = d3
         .zoom()
         .on("zoom", zoomed)
       ;
+<<<<<<< HEAD
+=======
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
       function getTextBox(selection) {
         selection
           .each(function(d) {
@@ -93,6 +122,10 @@
             })
         ;
       }
+<<<<<<< HEAD
+=======
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
       // Function that calculates zoom/pan limits and sets zoom to default value 
       function initiateZoom() {
         // Define a "minzoom" whereby the "Countries" is as small possible without leaving white space at top/bottom or sides
@@ -111,6 +144,10 @@
         // change zoom transform to min zoom and centre offsets
         svg.call(zoom.transform, d3.zoomIdentity.translate(midX, midY).scale(minZoom));
       }
+<<<<<<< HEAD
+=======
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
       // zoom to show a bounding box, with optional additional padding as percentage of box size
       function boxZoom(box, centroid, paddingPerc) {
         minXY = box[0];
@@ -151,6 +188,13 @@
             d3.zoomIdentity.translate(dleft, dtop).scale(zoomScale)
           );
       }
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
       // on window resize
       $(window).resize(function() {
         // Resize SVG
@@ -160,6 +204,10 @@
         ;
         initiateZoom();
       });
+<<<<<<< HEAD
+=======
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
       // create an SVG
       var svg = d3
         .select("#map-holder")
@@ -170,6 +218,11 @@
         // add zoom functionality
         .call(zoom)
       ;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
       // get map data
       d3.json(
         "https://raw.githubusercontent.com/andybarefoot/andybarefoot-www/master/maps/mapdata/custom50.json",
@@ -183,6 +236,10 @@
             .attr("y", 0)
             .attr("width", w)
             .attr("height", h);
+<<<<<<< HEAD
+=======
+
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
           // draw a path for each feature/country
           countries = countriesGroup
             .selectAll("path")
@@ -268,4 +325,8 @@
  
     </script>
   </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> a3313de5c900624aa18c40cc7912037b2ce87bac
