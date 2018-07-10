@@ -61,6 +61,10 @@ var path = d3.geo.path()
 var features = svg.append("g");
 var color = d3.scale.category10();
 
+var tooltip = d3.select("body").append("div")
+	.attr("class", "tooltip")
+	.style("opacity", 0);
+
 //Load TopoJSON data
 d3.json("map.json", function(error, syr) {
 
@@ -99,22 +103,19 @@ d3.json("map.json", function(error, syr) {
 			.style("opacity", 0.85)
 			.style("fill", function(d) {return color( d.label); })
 			//added - bitter
-			.on("mousemove", function(d) {
-			   //Update the tooltip position and value
-			   d3.select("#tooltip")
-			   .style("top", (d3.event.pageY-10) + 20 + "px")
-			   .style("left", (d3.event.pageX-10) + 20 + "px")
-			   .select('#SN')
-				   .text(d.StoreName);
-			   d3.select('#QS')
-				   .text(d.QTY_ALL);
-				// Show tooltip
-			   d3.select("#tooltip").classed("hidden", false);
-			   })
-			   // Hide tooltip when user stops hovering over map
-			   .on("mouseout", function() {
-			   d3.select("#tooltip").classed("hidden", true);
-			   });
+			.on("mouseover", function(d) {
+						tooltip.transition()
+						.duration(200)
+						.style("opacity", .9);
+						tooltip.html(d.StoreName)
+						.style("left", (d3.event.pageX) + "px")
+						.style("top", (d3.event.pageY - 28) + "px");
+					  })
+					  .on("mouseout", function(d) {
+						tooltip.transition()
+						.duration(500)
+						.style("opacity", 0);
+					  });
 
 	});
 
