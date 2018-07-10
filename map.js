@@ -102,8 +102,8 @@ d3.json("map.json", function(error, syr) {
 			.on("mousemove", function(d) {
 			   //Update the tooltip position and value
 			   d3.select("#tooltip")
-			   .style("top", (d3.event.pageY) + 20 + "px")
-			   .style("left", (d3.event.pageX) + 20 + "px")
+			   .style("top", (d3.event.pageY-10) + 20 + "px")
+			   .style("left", (d3.event.pageX-10) + 20 + "px")
 			   .select('#SN')
 				   .text(d.StoreName);
 			   d3.select('#QS')
