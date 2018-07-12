@@ -15,26 +15,39 @@
   <!-- Tooltip box. It appears when user hovers over the map.  -->
   <div id="tooltip" class="hidden">
     <div><strong>Store Name:</strong> <span id="SN">100</span></div>
+    <div><strong>Banner Name:</strong> <span id="BN">100</span></div>
     <div><strong>Quantity Sold:</strong> <span id="QS">200</span></div>
+    <div><strong>Risk Index:</strong> <span id="RS">200</span></div>
   </div>
 
 
   <!-- ADD D3.JS VISUALIZATION IN #VIZ.-->        
-  <div class='container-fluid'>
+  <div id=bigbox class='container-fluid'>
     <div class='row well well-lg'>
       <div id="viz" class='col-md-8 text-center' style="border:3px solid gray; background-color: #f8f3ed;"></div>    
 
       <div class='col-md-4'>
         <h1>West Ontario (West GTA)</h1>
         <p>Map of West Ontario (West GTA) made with D3.js and a TopoJSON file at <a href="http://www.gadm.org/">nothing</a></p>
-
+        <button id="down">Progress to Next Scene</button>
         <!-- INFO BOX. ITS CONTENT CHANGES AS USER HOVERS OVER DIFFERENT DISTRICTS ON MAP. -->
         <div>
-          <strong>Governorate:</strong> <span id="governorate-name"></span>
+          <!-- Trigger/Open The Modal -->
+          <br>
+          <button id="myBtn">About the Visualization</button>
+
+        <!-- The Modal -->
+          <div id="myModal" class="modal">
+
+          <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p>Some text in the Modal..</p>
+            </div>
+
+          </div>
         </div>
-        <div>
-          <strong>District:</strong> <span id="district-name"></span>
-        </div>
+
         <br>
         <br>
         <br>
@@ -43,10 +56,14 @@
     </div>  
   </div>
 
+  <div id='vis-container'></div>
+
   <div class="footer">
       <div class="container">
-          <div class="row" style="text-align: center;">
-               <h4>Gary Pang: <a href="www.codewritingcow.com">www.codewritingcow.com</a></h4>
+          <div id=bitterend class="row" style="text-align: center;">
+               <h4>Matthew Bitter</h4>
+               <button id="up">Back to Previous Scene</button>
+
           </div>
       </div>  
   </div>  

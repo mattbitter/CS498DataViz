@@ -61,9 +61,7 @@ var path = d3.geo.path()
 var features = svg.append("g");
 var color = d3.scale.category10();
 
-var tooltip = d3.select("body").append("div")
-	.attr("class", "tooltip")
-	.style("opacity", 0);
+
 
 //Load TopoJSON data
 d3.json("map.json", function(error, syr) {
@@ -97,7 +95,7 @@ d3.json("map.json", function(error, syr) {
 				return projection([d.lon, d.lat])[1];
 			})
 			.attr("r", function(d) {
-				return 1;
+				return d.radf;
 			})
 			//.style("fill", "rgb(217,91,67)")
 			.style("opacity", 0.85)
@@ -110,8 +108,12 @@ d3.json("map.json", function(error, syr) {
 			   .style("left", (d3.event.pageX) + 20 + "px")
 			   .select('#SN')
 				   .text(d.StoreName);
+			   d3.select('#BN')
+				   .text(d.Banner);
 			   d3.select('#QS')
 				   .text(d.QTY_ALL);
+			   d3.select('#RS')
+				   .text(d.pci);
 				// Show tooltip
 			   d3.select("#tooltip").classed("hidden", false);
 			   })
@@ -125,5 +127,52 @@ d3.json("map.json", function(error, syr) {
 });
 
 //playing
+function scrollTween(offset) {
+    return function () {
+        var i = d3.interpolateNumber(window.pageYOffset || document.documentElement.scrollTop, offset);
+        return function (t) {
+            scrollTo(0, i(t));
+        };
+    };
+}
+
+//add listeners to resume
+d3.select("#down").on("click", function () {
+    //resume teh transition
+    d3.select("body").transition()
+    .delay(1)
+    .duration(4500)
+    .tween("scroll", scrollTween(document.body.getBoundingClientRect().height - window.innerHeight));
+});
+
+//up button
+d3.select("#up").on("click", function () {
+    //resume transition
+    d3.select("body").transition()
+    .delay(1)
+    .duration(4500)
+    .tween("scroll", scrollTween(0));
+});
 
 //
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+//disable scroll bar
+document.body.style.overflow = 'hidden';
