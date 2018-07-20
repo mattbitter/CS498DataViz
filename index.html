@@ -2,103 +2,333 @@
 
 
 <html>
-  <head>
-    <title>Syria D3.js Map</title>
+<head>
+    <title>Matthew Bitter CS498 DataViz Final Project</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="D3.js map of Syria and its districts.">
-    <meta charset="utf-8"> 
+    <meta name="description" content="Matthew Bitter CS498 DataViz Final Project">
+    <meta charset="utf-8">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-  </head>
+</head>
 
-  <body>
-  
-  <!-- Tooltip box. It appears when user hovers over the map.  -->
-  <div id="tooltip" class="hidden">
+<body>
+
+<!-- Tooltip box. It appears when user hovers over the map.  -->
+<div id="tooltip" class="hidden">
     <div><strong>Store Name:</strong> <span id="SN">100</span></div>
     <div><strong>Banner Name:</strong> <span id="BN">100</span></div>
     <div><strong>Quantity Sold:</strong> <span id="QS">200</span></div>
     <div><strong>Risk Index:</strong> <span id="RS">200</span></div>
-  </div>
+</div>
 
 
-  <!-- ADD D3.JS VISUALIZATION IN #VIZ.-->        
-  <div id=bigbox class='container-fluid'>
+<!-- ADD D3.JS VISUALIZATION IN #VIZ.-->
+<div id=bigbox class='container-fluid'>
     <div class='row well well-lg'>
-      <div id="viz" class='col-md-8 text-center' style="border:3px solid gray; background-color: #f8f3ed;"></div>    
+        <div id="viz" class='col-md-8 text-center'
+             style="border:3px solid LightCoral ; background-color: #f8f3ed;"></div>
 
-      <div class='col-md-4'>
-        <h1>West Ontario (West GTA)</h1>
-        <p>Map of West Ontario (West GTA) made with D3.js and a TopoJSON file at <a href="http://www.gadm.org/">nothing</a></p>
-        <button id="down">Progress to Next Scene</button>
-        <!-- INFO BOX. ITS CONTENT CHANGES AS USER HOVERS OVER DIFFERENT DISTRICTS ON MAP. -->
-        <div>
-          <!-- Trigger/Open The Modal -->
-          <br>
-          <button id="myBtn">About the Visualization</button>
+        <div class='col-md-4'>
+            <h1>Matthew Bitter CS498 DataViz Final Project</h1>
+            <h3>Scene 1</h3>
+            <ul>
+                <li style="font-size:16px">Map of West Ontario (West GTA) with dots representing individual stores
+                    selling Maple Leaf Foods products
+                </li>
+                <li style="font-size:16px">Use the scroll wheel OR double click on your mouse to zoom in and out of the
+                    map
+                </li>
+                <li style="font-size:16px">Hover over dots to see additional information, the size of the dot indicates
+                    the stores sales
+                </li>
+                <li style="font-size:16px">The risk index is the probability a group of stores will cannibalize each others sales when a product is on discount. It depends heavily on proximity to other store locations and was calculated offline with kmeans clustering.</li>
+            </ul>
+            <p></p>
+            <p></p>
+            <button id="down">Progress to Next Scene</button>
+            <!-- INFO BOX. ITS CONTENT CHANGES AS USER HOVERS OVER DIFFERENT DISTRICTS ON MAP. -->
+            <div>
+                <!-- Trigger/Open The Modal -->
+                <br>
+                <button id="myBtn">About the Visualization</button>
 
-        <!-- The Modal -->
-          <div id="myModal" class="modal">
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
 
-          <!-- Modal content -->
-            <div class="modal-content">
-              <span class="close">&times;</span>
-              <p>Some text in the Modal..</p>
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h4>Matthew Bitter - Visualization Essay - July 17th, 2018</h4>
+                        <h3>Hybrid Structure: Interactive Slideshow</h3>
+                        <p>This visualization follows the interactive slideshow hybrid structure and illustrates sales
+                            of individual stores selling Maple Leaf Foods products across Western Ontario, Canada. The
+                            visualization is separated into two scenes or slides. The first scene shows a map section of
+                            Western Ontario, Canada with dots on the map indicating individual stores and the size of the
+                            dot indicating the quantity of products sold. The reader has the option to mouse over the
+                            dots for more information and has the option to zoom in on the map for more detail. The
+                            second scene is a line chart of stores sales over 5 weeks within a risk index. The user has
+                            the option to explore by excluding specific stores from the line chart and changing the risk
+                            index to show a different set of trends. The risk index is the probability a group of stores will cannibalize each others sales when a product is on discount. It depends heavily on proximity to other store locations and was calculated offline with kmeans clustering.</p>
+                        <h3>Scenes, Layout, Design</h3>
+                        <p>Overall, there are two scenes which effectively communicate an overview of all the data via a
+                            map of Western Ontario, Canada as well as a more detail look in the second scene via trend
+                            analysis using a line chart. Each scene allows the user to explore and discover interesting
+                            facts on their own while forcing the reader to go from scene to scene as per my design. The layout of the scenes consisted of keeping the visuals to the left of
+                            the screen and the text to the right because in western cultures users read from left to
+                            right so the goal was to have the users see the visuals first and read the short
+                            descriptions second.</p>
+                        <h3>Annotations</h3>
+                        <p>The narrative visualization also uses annotations to communicate a import aspects about the
+                            data. Specifically, in the line chart on the second scene a red circle is used to highlight
+                            that sales in week 19 across all risk categories are consistently low. Therefore, it is possible that the stores with high sales are stealing customers from the stores with lower sales. The annotations can be cleared using the “Clear
+                            All Lines and Annotations” button right above the chart. Additionally, the geo map showed
+                            tooltips which is a basic form of annotation that is shown when the user’s mouse moves over
+                            the dot and disappears when the user is not over the dot.</p>
+                        <h3>Parameters</h3>
+                        <p>Parameters are used extensively in all the visuals. A parameter is anything that accepts a
+                            change in state either from a user event or from another parameter change. Stringing
+                            parameters together results in a simple state machine when can produce advanced
+                            visualizations. The table below lists important parameters used in each scene and what they
+                            control. The trigger that each parameter initiates will be explained in the next
+                            section.</p>
+
+                        <table>
+                            <tr>
+                                <th>Scene</th>
+                                <th>Parameter</th>
+                                <th>Use / Control</th>
+                            </tr>
+                            <tr>
+                                <td>First Scene</td>
+                                <td>Mouse position</td>
+                                <td>The map visual uses mouse position to determine when to show or hide a tooltip for
+                                    each store’s dot.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>First Scene</td>
+                                <td>Mouse click & mouse scroll wheel</td>
+                                <td>The map visual also accepts mouse double clicks to zoom the map inwards a static
+                                    amount after each double click. Additionally, mouse scroll wheel movements can
+                                    scroll the map inwards or outwards.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>First Scene</td>
+                                <td>Progress to Next scene button</td>
+                                <td>This button will move the narrative to the next scene by scrolling the page down a
+                                    static amount.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Second Scene</td>
+                                <td>Dropdown filter</td>
+                                <td>The dropdown filter can be changed by the user to select the different risk
+                                    categories. Changing it will cause the legend and line chart to change.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Second Scene</td>
+                                <td>Show/Clear All Lines and Annotations button</td>
+                                <td>The buttons affect both the line chart as well as
+                                    the red circle annotation. This helpful if the user wants to reset the view
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Second Scene</td>
+                                <td>Legend</td>
+                                <td>The legend is also clickable and hides individual lines depending on which small
+                                    rectangle box the user clicks on.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Second Scene</td>
+                                <td>dataNest</td>
+                                <td>This parameter is hidden from the user but it stores the actual data depending on
+                                    what risk category the user has selected from the drop down.
+                                </td>
+                            </tr>
+                        </table>
+                        <h3>Triggers</h3>
+                        <p>Triggers cause a change in the webpage or visualization which is typically initiated by a
+                            user action. The general workflow is as follows: a user executes an event which changes a
+                            parameter on the visualization, the parameter change then initiates a trigger to change the
+                            visual. Some examples of these changes are filtering lists or changing colors. Accordingly,
+                            the table below will describe the important triggers used in this visualization and their
+                            relating the user event and parameter pairs.</p>
+                        <table>
+                            <tr>
+                                <th>Trigger description</th>
+                                <th>User event and parameter that initiates the trigger</th>
+                                <th>How possible user event is communicated to the user</th>
+                            </tr>
+                            <tr>
+                                <td>The tooltips for the map are triggered from the .on(“mousemove”) function that takes
+                                    the
+                                    X and Y coordinates of the mouse and shows the tooltip at the mouse location.
+                                    Similarly
+                                    the .on(“mouseout”) function hides the tooltip
+                                </td>
+                                <td>User moving the mouse which updates the mouse position</td>
+                                <td>The description to the right of the map states how the user can interact with the
+                                    visual. Also, it is intuitive to use the scroll wheel and mouse over items on maps
+                                    for
+                                    more information
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>The zooming of the map is triggered from zoomed() function which is called as a part
+                                    of
+                                    the map svg element.
+                                </td>
+                                <td>User clicking the mouse & moving the mouse scroll wheel</td>
+                                <td>The description to the right of the map states how the user can interact with the
+                                    visual. Also, it is intuitive to use the scroll wheel and mouse over items on maps
+                                    for
+                                    more information
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>When the user clicks on the progress to next scene button it calls the function
+                                    scrollTween which can either scroll up or down depending on the button pressed. When
+                                    down is pressed it passed a parameter of 1,200 pixels to scroll down by.
+                                </td>
+                                <td>User clicking the progress to Next scene button</td>
+                                <td>The buttons are in a color of green that is inviting to the eyes and encourages the
+                                    user
+                                    to click on it.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>When the dropdown called #inds changes then that trigger the .on(“change”) function
+                                    that
+                                    pulls in a filtered set of data based off of the section and re draws the line
+                                    chart.
+                                </td>
+                                <td>User selecting an item from the dropdown filter</td>
+                                <td>The description to the right of the line chart explains to use the dropdown to
+                                    change
+                                    the line chart. Also drop downs are a common UI element that most people can
+                                    understand
+                                    quickly.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Clicking the Show or Clear buttons will called the ShowAll() or ClearAll() functions
+                                    respectively which will set the display to non in the case of ClearAll() or redraw
+                                    the
+                                    lines in the case of ShowAll(). Additionally, the red circle annotation will be
+                                    hidden
+                                    or shown in a similar fashion.
+                                </td>
+                                <td>User clicking the Show/Clear All Lines and Annotations button</td>
+                                <td>The buttons are in a color of green that is inviting to the eyes and encourages the
+                                    user
+                                    to click on it.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Clicking a rectangle on the legend will call the trigger to change the color of the
+                                    rectangle to grey and filter the current dataset to exclude the clicked store which
+                                    will
+                                    be held in the “result” variable. Then the result variable is redrawn on the line
+                                    chart
+                                    which will then only show the requested lines.
+                                </td>
+                                <td>User clicking on a colored rectangle in the legend</td>
+                                <td>The buttons are in a color of green that is inviting to the eyes and encourages the
+                                    user
+                                    to click on it. Also, the mouse changes to a hand which indicates that they can be
+                                    clicked
+                                </td>
+                            </tr>
+                        </table>
+
+                        <h3> References: </h3>
+                        <p> Andy Barefoot - D3 Map Basics<br>https://bl.ocks.org/andybarefoot/765c937c8599ef540e1e0b394ca89dc5</p>
+                        <p> Joseph Marcus - d3 Map Basics<br>http://bl.ocks.org/jhmarcus/8185674 </p>
+                        <p> FOS4US - tpop json basics<br>https://fos4us.ca/category/topojson/ </p>
+                        <p> Canada GeoJSON merger<br>http://geojson.io </p>
+                        <p> Mike Bostock - D3 Map Lets Make a Map<br>https://bost.ocks.org/mike/map/ </p>
+                        <p> CODEX - dots on geo<br>http://blog.robertjesionek.com/d3js-geo/ </p>
+                        <p> scrolling<br>http://bl.ocks.org/humbletim/5507619 </p>
+                        <p> modal<br>https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal </p>
+                        <p> Jill Line Chart with Dropdown selector<br>http://bl.ocks.org/jhubley/17aa30fd98eb0cc7072f</p>
+
+
+                    </div>
+
+                </div>
             </div>
 
-          </div>
+            <br>
+            <br>
+            <br>
+            <br>
         </div>
+    </div>
+</div>
 
-        <br>
-        <br>
-        <br>
-        <br> 
-      </div>
-    </div>  
-  </div>
+<div id='scene2'></div>
 
-  <div id='scene2'></div>
+<div id="s2desc">
+    <h3>Scene 2</h3>
+    <ul>
+        <li style="font-size:16px">Select from the drop down to filter the line charts by Risk Category.</li>
+        <li style="font-size:16px">Click on the legend to show/hide specific stores from the line chart.</li>
+        <li style="font-size:16px">Use the Show All and Clear All Lines/Annotations to show/clear ALL stores and
+            annotations from the line chart.
+        </li>
+        <li style="font-size:16px">The red circle highlights the specific week and stores that experienced a significant
+            dip in sales which indicates
+            potential cannibalization of profits by competing stores.
+        </li>
+        <li style="font-size:16px">Use the Back to Previous Scene button to go back to the map of West Ontario.</li>
+    </ul>
+</div>
+<select id="inds">
+    <option value="Very High" selected="selected">Very High</option>
+    <option value="High">High</option>
+    <option value="Medium">Medium</option>
+    <option value="Low">Low</option>
+</select>
+<div id="legendContainer" class="legendContainer">
+    <svg id="legend"></svg>
+</div>
+<div id="showAll">
+    <input name="showAllButton"
+           type="button"
+           value="Show All Lines and Annotations"
+           onclick="showAll()"/>
+</div>
+<div id="clearAll">
+    <input name="clearAllButton"
+           type="button"
+           value="Clear All Lines and Annotations"
+           onclick="clearAll()"/>
+</div>
 
-  <select id="inds">
-          <option value="Very High" selected="selected">Very High</option>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-  </select>
-  <div id="legendContainer" class="legendContainer">
-      <svg id="legend"></svg>
-  </div>
-  <div id="showAll">
-      <input name="showAllButton"
-       type="button"
-       value="Show All"
-       onclick="showAll()" />
-  </div>
-  <div id="clearAll">
-      <input name="clearAllButton"
-       type="button"
-       value="Clear All"
-       onclick="clearAll()" />
-  </div>
+<div id='circles2' class="circle smallh"></div>
 
-  <div class="footer">
-      <div class="container">
-          <div id=bitterend class="row" style="text-align: center;">
-               <h4>Matthew Bitter</h4>
-               <button id="up">Back to Previous Scene</button>
+<div class="footer">
+    <div class="container">
+        <div id=bitterend class="row" style="text-align: center;">
+            <button id="up">Back to Previous Scene</button>
+            <h4>Matthew Bitter</h4>
 
-          </div>
-      </div>  
-  </div>  
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
-  <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
-  <script src="//d3js.org/d3.v3.min.js"></script>
-  <script src="//d3js.org/topojson.v1.min.js"></script>
-  <!--https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js -->
-  <link rel="stylesheet" href="tooltip.css">
+        </div>
+    </div>
+</div>
 
-  <!-- D3.js code creates map of Syria. -->
-  <script src="map.js"></script>
-  <!-- <script src="mapdots.json"></script> -->
-  </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="//d3js.org/topojson.v1.min.js"></script>
+<!--https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js -->
+<link rel="stylesheet" href="tooltip.css">
+
+<!-- D3.js code creates map of Syria. -->
+<script src="map.js"></script>
+<!-- <script src="mapdots.json"></script> -->
+</body>
 </html>

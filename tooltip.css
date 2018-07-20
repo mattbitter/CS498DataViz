@@ -1,6 +1,6 @@
 /* CSS for tooltip box that appears when mouse hovers over D3.js map. */
 path:hover {
-    fill: #72716c;
+    fill: #ddcdb8;
 }
 #tooltip {
         position: absolute;
@@ -27,7 +27,7 @@ path:hover {
         line-height: 20px;
 }
 #bigbox {
-        margin-bottom: 10px;
+        margin-bottom: 300px;
 }
 
 /* The Modal (background) */
@@ -70,7 +70,7 @@ path:hover {
 }
 #bitterend{
 	position:absolute;
-	top:1400px;
+	top:2000px;
 	left:950px;
 }
 
@@ -81,19 +81,19 @@ body { font: 12px Arial;}
 .axis line {
     fill: none;
     stroke: grey;
-    stroke-width: 1;
+    stroke-width: 3px;
     shape-rendering: crispEdges;
 }
 #legendContainer{
 	position:absolute;
-	top:60px;
-	left:10px;
-	overflow: auto;
-	height:490px;
-	width:110px;
+	top:1300px;
+	left:150px;
+	overflow: visible;
+	height:290px;
+	width:200px;
 }
 #legend{
-	width:90px;
+	width:290px;
 	height:200px;
 }
 .legend {
@@ -106,23 +106,104 @@ body { font: 12px Arial;}
 }
 #showAll{
 	position:absolute;
-	top:600px;
-	left:880px;
+	top:1360px;
+	left:600px;
 }
 #clearAll{
 	position:absolute;
-	top:600px;
-	left:950px;
+	top:1360px;
+	left:800px;
 }
 input{
 	border-radius:5px;
 	padding:5px 10px;
-	background:#999;
+	background:#5cae75;
 	border:0;
 	color:#fff;
 }
 #inds{
 	position:absolute;
-	top:10px;
+	top:1270px;
+	left:150px;
+}
+
+#scene2{
+    position:absolute;
+	top:1400px;
 	left:10px;
+    padding-right: 25px;
+    background: #f8f3ed;
+    border: 3px solid LightCoral ;
+
+}
+
+#s2desc{
+    position:absolute;
+	top:1400px;
+	left:1110px;
+    border: 3px solid LightCoral ;
+    padding: 25px;
+    width: 450px;
+}
+body:after{
+    background: #f5f5f5;
+    content:"";
+    height:1190px;
+    top:0px;
+    left:0;
+    right:0;
+    display:block;
+}
+
+.circle.smallh {
+	border: 4px solid #f84342;
+    position: absolute;
+    top:1840px;
+	left:730px;
+	border-radius: 50%;
+	width: 80px;
+	height: 90px;
+}
+
+#up {
+    border-radius: 5px;
+    padding: 15px 20px;
+    background: #5cae75;
+    border: 0;
+    color: #fff;
+    font-size: 16px;
+}
+
+#down {
+    border-radius: 5px;
+    padding: 15px 20px;
+    background: #5cae75;
+    border: 0;
+    color: #fff;
+    font-size: 16px;
+}
+
+#myBtn {
+    border-radius: 5px;
+    padding: 15px 20px;
+    background: #5cae75;
+    border: 0;
+    color: #fff;
+    font-size: 16px;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
 }

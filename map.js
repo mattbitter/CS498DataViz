@@ -1,14 +1,14 @@
 var margin = {top: 10, left: 10, bottom: 10, right: 10},
     width = parseInt(d3.select('#viz').style('width')),
     width = width - margin.left - margin.right,
-    mapRatio = .4,
+    mapRatio = .5,
     height = width * mapRatio,
-    mapRatioAdjuster = 4; // adjust map ratio here without changing map container size.
-syria_center = [-81, 43.5]; // Syria's geographical center
+    mapRatioAdjuster = 6; // adjust map ratio here without changing map container size.
+ca_center = [-81, 43.5]; // Syria's geographical center
 
 //Define map projection
 var projection = d3.geo.mercator()
-    .center(syria_center) // sets map center to Syria's center
+    .center(ca_center) // sets map center to Syria's center
     .translate([width / 2, height / 2])
     .scale(width * [mapRatio + mapRatioAdjuster]);
 
@@ -20,7 +20,7 @@ function resize() {
 
     // update projection
     projection.translate([width / 2, height / 2])
-        .center(syria_center)
+        .center(ca_center)
         .scale(width * [mapRatio + mapRatioAdjuster]);
 
     // resize map container
@@ -143,7 +143,7 @@ d3.select("#down").on("click", function () {
     d3.select("body").transition()
         .delay(.5)
         .duration(4500)
-        .tween("scroll", scrollTween(1000));
+        .tween("scroll", scrollTween(1200));
     //document.body.getBoundingClientRect().height - window.innerHeight
 });
 
@@ -177,7 +177,7 @@ span.onclick = function () {
 }
 
 //disable scroll bar
-//document.body.style.overflow = 'hidden';
+document.body.style.overflow = 'hidden';
 
 //scene 2 ************         //
 
@@ -185,7 +185,10 @@ function filterJSON(json, key, value) {
     var result = [];
     json.forEach(function (val, idx, arr) {
         if (val[key] == value) {
-
+            if (!(val.year instanceof Date)) {
+                parseDate = d3.time.format("%Y%U").parse; //bitter
+                val.year = parseDate(val.year); //bitter
+            }
             result.push(val)
         }
     })
@@ -193,7 +196,7 @@ function filterJSON(json, key, value) {
 }
 
 // Set the dimensions of the canvas / graph
-var margin = {top: 50, right: 20, bottom: 30, left: 160},
+var margin = {top: 50, right: 40, bottom: 30, left: 160},
     width = 1000 - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
@@ -203,14 +206,14 @@ var margin = {top: 50, right: 20, bottom: 30, left: 160},
 // Set the ranges
 var yearweek = ['201816', '201817', '201818', '201819', '201820']
 
-//var x = d3.scaleOrdinal().domain(yearweek);
+//var x = d3.scale.ordinal().domain(yearweek).rangePoints([0, width]);
 var x = d3.time.scale().range([0, width]);
 var y = d3.scale.linear().range([height, 0]);
 
 // Define the axes
 var xAxis = d3.svg.axis().scale(x)
     .orient("bottom").ticks(5)
-//.tickFormat(d3.time.format("%Y"))
+    .tickFormat(d3.time.format("%Y Wk %U"))
 
 var yAxis = d3.svg.axis().scale(y)
     .orient("left").ticks(5);
@@ -226,16 +229,17 @@ var stateline = d3.svg.line()
     });
 
 // Adds the svg canvas
-var svg = d3.select("body")
+var svg = d3.select("#scene2")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
+    .attr("stroke-width", 2)
     .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")");
 var data;
 // Get the data
-d3.csv("scene2_test2.csv", function (error, json) {
+d3.csv("scene2_test3.csv", function (error, json) {
     console.log(json)
 
     json.forEach(function (d) {
@@ -249,19 +253,18 @@ d3.csv("scene2_test2.csv", function (error, json) {
 
             data = filterJSON(json, 'pci', section);
 
-
             //debugger
 
             data.forEach(function (d) {
                 d.value = +d.value;
+                //parseDate = d3.time.format("%Y%U").parse; //bitter
+                //d.year = parseDate(d.year); //bitter
                 //d.year = parseDate(String(d.year));
                 d.active = true;
             });
 
-
             //debugger
             updateGraph(data);
-
 
             jQuery('h1.page-header').html(section);
         });
@@ -272,7 +275,7 @@ d3.csv("scene2_test2.csv", function (error, json) {
 
 });
 
-var colors2 = d3.scale.ordinal().range(["#48A36D", "#0096ff", "#ff007e", "#ffe448", "#b953d2"]);
+var colors2 = d3.scale.ordinal().range(["#48A36D", "#0096ff", "#ff007e", "#f5da48", "#b953d2"]);
 
 function updateGraph(data) {
 
@@ -359,7 +362,9 @@ function updateGraph(data) {
 
 
             var result = dataNest.filter(function (val, idx, arr) {
-                if (val.active != true) {return  $("." + val.key); }
+                if (val.active != true) {
+                    return $("." + val.key);
+                }
                 //return $("." + val.key).attr("fill") != "#ccc"
                 // matching the data with selector status
             })
@@ -424,18 +429,50 @@ function clearAll() {
     d3.select("#legend").selectAll("rect")
         .transition().duration(100)
         .attr("fill", "#ccc");
+
+    var cirs2 = document.getElementById("circles2");
+    cirs2.style.display = "none";
 };
 
 function showAll() {
+    //bitter edit
+
+
+    d3.select("#legend").selectAll("rect")
+        .attr("fill", function (d) {
+            return colors2(d.key);
+
+        })
+    var cirs2 = document.getElementById("circles2");
+    cirs2.style.display = "block";
+
+    var result = dataNest.filter(function (val, idx, arr) {
+        //if (val.active != true) {
+        val.active = false;
+        return $("." + val.key);
+        //}
+        //return $("." + val.key).attr("fill") != "#ccc"
+        // matching the data with selector status
+    })
+
+    // Hide or show the lines based on the ID
+    svg.selectAll(".line").data(result, function (d) {
+        return d.key
+    })
+        .enter()
+        .append("path")
+        .attr("class", "line")
+        .style("stroke", function (d, i) {
+            return d.colors2 = colors2(d.key);
+        })
+        .style("fill", "none")
+        .attr("d", function (d) {
+            return stateline(d.values);
+        });
+
     d3.selectAll(".line")
         .transition().duration(100)
         .attr("d", function (d) {
             return stateline(d.values);
         });
-    d3.select("#legend").selectAll("rect")
-        .attr("fill", function (d) {
-            if (d.active == true) {
-                return colors2(d.key);
-            }
-        })
 };
