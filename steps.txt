@@ -1,9 +1,0 @@
-make map smaller bottom 80% or 90%
-focus in on ontario
-
-click on priority level (1, 2 ,3) map zooms to specific area. the buttons to click should be top left.
-
-hover over dot shows more details about the dot as pop out
-
-references:
-https://bl.ocks.org/andybarefoot/765c937c8599ef540e1e0b394ca89dc5

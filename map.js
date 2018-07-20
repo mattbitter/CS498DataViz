@@ -1,14 +1,17 @@
+//Matthew Bitter - MCS DS, CS498 Final Project JS d3
+
+// ********** SCENE 1 **********
 var margin = {top: 10, left: 10, bottom: 10, right: 10},
     width = parseInt(d3.select('#viz').style('width')),
     width = width - margin.left - margin.right,
-    mapRatio = .5,
+    mapRatio = .5, //adjust the length of the map container
     height = width * mapRatio,
-    mapRatioAdjuster = 6; // adjust map ratio here without changing map container size.
-ca_center = [-81, 43.5]; // Syria's geographical center
+    mapRatioAdjuster = 6; // adjust how zoomed in the map starts out as
+ca_center = [-81, 43.5]; // Western Ontario's geographical center
 
 //Define map projection
 var projection = d3.geo.mercator()
-    .center(ca_center) // sets map center to Syria's center
+    .center(ca_center) // sets map center to Ontario's center
     .translate([width / 2, height / 2])
     .scale(width * [mapRatio + mapRatioAdjuster]);
 
@@ -62,7 +65,7 @@ var features = svg.append("g");
 var color = d3.scale.category10();
 
 
-//Load TopoJSON data
+//Load TopoJSON data, this defines how the map is drawn
 d3.json("map.json", function (error, syr) {
 
     if (error) return console.error(error);
@@ -80,7 +83,6 @@ d3.json("map.json", function (error, syr) {
         .attr("fill", "#e8d8c3")
         .attr("stroke", "#404040")
         .attr("stroke-width", .3)
-    //the temp mouse over code sgoes below this
 
     d3.csv("mapdots.csv", function (data) {
         features.selectAll("circle")
@@ -101,7 +103,7 @@ d3.json("map.json", function (error, syr) {
             .style("fill", function (d) {
                 return color(d.label);
             })
-            //added - bitter
+            //this is the trigger for the mouse over to show important information
             .on("mousemove", function (d) {
                 //Update the tooltip position and value
                 d3.select("#tooltip")
@@ -127,7 +129,7 @@ d3.json("map.json", function (error, syr) {
 
 });
 
-//playing
+//defines the scrollTween function which controls the progress to next scene and previous scene buttons
 function scrollTween(offset) {
     return function () {
         var i = d3.interpolateNumber(window.pageYOffset || document.documentElement.scrollTop, offset);
@@ -137,17 +139,15 @@ function scrollTween(offset) {
     };
 }
 
-//add listeners to resume
+//progress to next scene button calling trigger
 d3.select("#down").on("click", function () {
-    //resume teh transition
     d3.select("body").transition()
         .delay(.5)
         .duration(4500)
         .tween("scroll", scrollTween(1200));
-    //document.body.getBoundingClientRect().height - window.innerHeight
 });
 
-//up button
+//up button, go to previous scene button calling trigger
 d3.select("#up").on("click", function () {
     //resume transition
     d3.select("body").transition()
@@ -179,15 +179,16 @@ span.onclick = function () {
 //disable scroll bar
 document.body.style.overflow = 'hidden';
 
-//scene 2 ************         //
+//************** SCENE 2 ************
 
+//function is called Filter JSON however the file is changed to CSV.
 function filterJSON(json, key, value) {
     var result = [];
     json.forEach(function (val, idx, arr) {
         if (val[key] == value) {
-            if (!(val.year instanceof Date)) {
-                parseDate = d3.time.format("%Y%U").parse; //bitter
-                val.year = parseDate(val.year); //bitter
+            if (!(val.year instanceof Date)) { //this ensures only non date values are parsed
+                parseDate = d3.time.format("%Y%U").parse; //this parses the time into time format and shows YEAR WEEK
+                val.year = parseDate(val.year); //this does the parsing
             }
             result.push(val)
         }
@@ -200,17 +201,12 @@ var margin = {top: 50, right: 40, bottom: 30, left: 160},
     width = 1000 - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
-// Parse the date / time
 
-
-// Set the ranges
-var yearweek = ['201816', '201817', '201818', '201819', '201820']
-
-//var x = d3.scale.ordinal().domain(yearweek).rangePoints([0, width]);
+//set x and y scales
 var x = d3.time.scale().range([0, width]);
 var y = d3.scale.linear().range([height, 0]);
 
-// Define the axes
+// Define the axes from the scales
 var xAxis = d3.svg.axis().scale(x)
     .orient("bottom").ticks(5)
     .tickFormat(d3.time.format("%Y Wk %U"))
@@ -243,30 +239,25 @@ d3.csv("scene2_test3.csv", function (error, json) {
     console.log(json)
 
     json.forEach(function (d) {
-        d.value = +d.value;
+        d.value = +d.value; //get each data row so the line chart knows what datapoints to plot when it initially shows
     });
 
     d3.select('#inds')
         .on("change", function () {
             var sect = document.getElementById("inds");
-            var section = sect.options[sect.selectedIndex].value;
+            var section = sect.options[sect.selectedIndex].value; //get selected dropdown item
 
-            data = filterJSON(json, 'pci', section);
+            data = filterJSON(json, 'pci', section); //filter based on drop down item
 
-            //debugger
-
-            data.forEach(function (d) {
+            data.forEach(function (d) { //re pull data based on updated filter slection from user
                 d.value = +d.value;
-                //parseDate = d3.time.format("%Y%U").parse; //bitter
-                //d.year = parseDate(d.year); //bitter
-                //d.year = parseDate(String(d.year));
                 d.active = true;
             });
 
-            //debugger
+            //update the line chart based on selection
             updateGraph(data);
 
-            jQuery('h1.page-header').html(section);
+            //jQuery('h1.page-header').html(section);
         });
 
     // generate initial graph
@@ -275,6 +266,7 @@ d3.csv("scene2_test3.csv", function (error, json) {
 
 });
 
+//controls the colors of the line chart
 var colors2 = d3.scale.ordinal().range(["#48A36D", "#0096ff", "#ff007e", "#f5da48", "#b953d2"]);
 
 function updateGraph(data) {
@@ -291,50 +283,52 @@ function updateGraph(data) {
     })]);
 
 
-    // Nest the entries by state
+    // Nest the entries by StoreName so that it splits out the lines by Store and you do not get one continuous line
     dataNest = d3.nest()
         .key(function (d) {
             return d.StoreName;
-        }) //bitter edit change from state
+        })
         .entries(data);
 
 
-    var result = dataNest.filter(function (val, idx, arr) {
-        return $("." + val.key).attr("fill") != "#ccc"
-        // matching the data with selector status
-    })
+    //var result = dataNest.filter(function (val, idx, arr) {
+    //    return $("." + val.key)//.attr("fill") != "#ccc"
+        // matching the data with selector status and hiding unselected lines from legend
+    //})
 
-
+    //create svg line for each store
     var state = svg.selectAll(".line")
-        .data(result, function (d) {
+        .data(dataNest, function (d) {
             return d.key
         });
 
     state.enter().append("path")
         .attr("class", "line");
 
+    //logic to control assigning colors to lines
     state.transition()
         .style("stroke", function (d, i) {
             return d.colors2 = colors2(d.key);
         })
         .style("fill", "none")
-        .attr("id", function (d) {
-            return 'tag' + d.key.replace(/\s+/g, '');
-        }) // assign ID
+        //.attr("id", function (d) {
+        //    return 'tag' + d.key.replace(/\s+/g, '');
+        //}) // assign ID
         .attr("d", function (d) {
 
             return stateline(d.values)
         });
 
-    state.exit().remove();
+    state.exit().remove(); //remove lines not in the dataset
 
+    //define the legend based on data, storeName being the key
     var legend = d3.select("#legend")
         .selectAll("text")
         .data(dataNest, function (d) {
             return d.key
         });
 
-    //checkboxes
+    //checkboxes set up for the legend
     legend.enter().append("rect")
         .attr("width", 10)
         .attr("height", 10)
@@ -343,27 +337,27 @@ function updateGraph(data) {
             return 0 + i * 15;
         })  // spacing
         .attr("fill", function (d) {
-            return colors2(d.key);
+            return colors2(d.key); //assign same colors to the legend so they match the lines
 
         })
         .attr("class", function (d, i) {
             return "legendcheckbox " + d.key
         })
         .on("click", function (d) {
-            d.active = !d.active;
+            d.active = !d.active; //flip the active status when the legend is clicked
 
             d3.select(this).attr("fill", function (d) {
                 if (d3.select(this).attr("fill") == "#ccc") {
-                    return colors2(d.key);
+                    return colors2(d.key); //if the legend box is grey make it a color
                 } else {
-                    return "#ccc";
+                    return "#ccc"; //else make it grey
                 }
             })
 
 
             var result = dataNest.filter(function (val, idx, arr) {
                 if (val.active != true) {
-                    return $("." + val.key);
+                    return $("." + val.key); //if active is false i.e. not clicked then bring in the data
                 }
                 //return $("." + val.key).attr("fill") != "#ccc"
                 // matching the data with selector status
@@ -404,7 +398,7 @@ function updateGraph(data) {
             return d.key;
         });
 
-    legend.exit().remove();
+    legend.exit().remove(); //remove legends not matching data set
 
     svg.selectAll(".axis").remove();
 
@@ -420,6 +414,7 @@ function updateGraph(data) {
         .call(yAxis);
 };
 
+//defines the clear all lines and annotations button
 function clearAll() {
     d3.selectAll(".line")
         .transition().duration(100)
@@ -430,14 +425,15 @@ function clearAll() {
         .transition().duration(100)
         .attr("fill", "#ccc");
 
+    //hide annotation red circle
     var cirs2 = document.getElementById("circles2");
     cirs2.style.display = "none";
 };
 
 function showAll() {
-    //bitter edit
 
-
+    //show all the lines. data needed to be re pulled into results variable and lines redrawn.
+    //also set all the legend colors back to colors and not grey
     d3.select("#legend").selectAll("rect")
         .attr("fill", function (d) {
             return colors2(d.key);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<!-- Matthew Bitter - MCS DS, CS498 Final Project HTML  -->
 
 <html>
 <head>
@@ -7,12 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Matthew Bitter CS498 DataViz Final Project">
     <meta charset="utf-8">
+    <!-- This is just a basic CSS stylesheet, I believe it is allowed to use CSS from other sources -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
 
-<!-- Tooltip box. It appears when user hovers over the map.  -->
+<!-- This will show the tool tip over the map of Ontario  -->
 <div id="tooltip" class="hidden">
     <div><strong>Store Name:</strong> <span id="SN">100</span></div>
     <div><strong>Banner Name:</strong> <span id="BN">100</span></div>
@@ -21,12 +22,12 @@
 </div>
 
 
-<!-- ADD D3.JS VISUALIZATION IN #VIZ.-->
+<!-- This is the large div container that holds the text and objects for Scene 1 (the map) -->
 <div id=bigbox class='container-fluid'>
     <div class='row well well-lg'>
         <div id="viz" class='col-md-8 text-center'
              style="border:3px solid LightCoral ; background-color: #f8f3ed;"></div>
-
+        <!-- This div is the text box to the right of scene 1 -->
         <div class='col-md-4'>
             <h1>Matthew Bitter CS498 DataViz Final Project</h1>
             <h3>Scene 1</h3>
@@ -45,19 +46,17 @@
             <p></p>
             <p></p>
             <button id="down">Progress to Next Scene</button>
-            <!-- INFO BOX. ITS CONTENT CHANGES AS USER HOVERS OVER DIFFERENT DISTRICTS ON MAP. -->
             <div>
                 <!-- Trigger/Open The Modal -->
                 <br>
                 <button id="myBtn">About the Visualization</button>
 
-                <!-- The Modal -->
                 <div id="myModal" class="modal">
-
-                    <!-- Modal content -->
+                    <!-- About this visualization content in a modal -->
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <h4>Matthew Bitter - Visualization Essay - July 17th, 2018</h4>
+                        <h4><a href="https://github.com/mattbitter/CS498DataViz" target="_blank">GitHub Code Repo for Project</a></h4>
                         <h3>Hybrid Structure: Interactive Slideshow</h3>
                         <p>This visualization follows the interactive slideshow hybrid structure and illustrates sales
                             of individual stores selling Maple Leaf Foods products across Western Ontario, Canada. The
@@ -244,11 +243,11 @@
                         </table>
 
                         <h3> References: </h3>
+                        <p> Mike Bostock - D3 Map Lets Make a Map<br>https://bost.ocks.org/mike/map/ </p>
                         <p> Andy Barefoot - D3 Map Basics<br>https://bl.ocks.org/andybarefoot/765c937c8599ef540e1e0b394ca89dc5</p>
                         <p> Joseph Marcus - d3 Map Basics<br>http://bl.ocks.org/jhmarcus/8185674 </p>
                         <p> FOS4US - tpop json basics<br>https://fos4us.ca/category/topojson/ </p>
                         <p> Canada GeoJSON merger<br>http://geojson.io </p>
-                        <p> Mike Bostock - D3 Map Lets Make a Map<br>https://bost.ocks.org/mike/map/ </p>
                         <p> CODEX - dots on geo<br>http://blog.robertjesionek.com/d3js-geo/ </p>
                         <p> scrolling<br>http://bl.ocks.org/humbletim/5507619 </p>
                         <p> modal<br>https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal </p>
@@ -270,6 +269,7 @@
 
 <div id='scene2'></div>
 
+<!-- this is the other div container for Scene 2 -->
 <div id="s2desc">
     <h3>Scene 2</h3>
     <ul>
@@ -285,6 +285,7 @@
         <li style="font-size:16px">Use the Back to Previous Scene button to go back to the map of West Ontario.</li>
     </ul>
 </div>
+<!-- This defines the drop down options for scene 2 -->
 <select id="inds">
     <option value="Very High" selected="selected">Very High</option>
     <option value="High">High</option>
@@ -294,12 +295,14 @@
 <div id="legendContainer" class="legendContainer">
     <svg id="legend"></svg>
 </div>
+<!-- This defines the show all button for the line and annocations -->
 <div id="showAll">
     <input name="showAllButton"
            type="button"
            value="Show All Lines and Annotations"
            onclick="showAll()"/>
 </div>
+<!-- This defines the clear all button for the line and annotations -->
 <div id="clearAll">
     <input name="clearAllButton"
            type="button"
@@ -309,6 +312,7 @@
 
 <div id='circles2' class="circle smallh"></div>
 
+<!-- This defines the back to previous screen button -->
 <div class="footer">
     <div class="container">
         <div id=bitterend class="row" style="text-align: center;">
@@ -320,15 +324,15 @@
     </div>
 </div>
 
+<!-- topoJSON is needed for the map, it just to read the input data for drawing the map.
+I belive jQuery was allowed for this project and the standard D3 library as well -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
-<!--https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js -->
+<!-- link to the CSS file -->
 <link rel="stylesheet" href="tooltip.css">
-
-<!-- D3.js code creates map of Syria. -->
+<!-- link to the JS file -->
 <script src="map.js"></script>
-<!-- <script src="mapdots.json"></script> -->
+
 </body>
 </html>

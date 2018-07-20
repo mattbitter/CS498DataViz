@@ -1,7 +1,10 @@
-/* CSS for tooltip box that appears when mouse hovers over D3.js map. */
+/* Matthew Bitter Final Project CS498 */
+
+/* hover for the map when you mouse over a province*/
 path:hover {
     fill: #ddcdb8;
 }
+/* Tooltip CSS for map dots*/
 #tooltip {
         position: absolute;
         width: 200px;
@@ -15,11 +18,13 @@ path:hover {
         -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
         box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
         pointer-events: none;
-        z-index: 3; /* Makes tooltip box appear above other elements on webpage. */
+        z-index: 3;
 }
+/* how to hide the dots when not mouse over*/
 #tooltip.hidden {
         display: none;
 }
+/* formatting for text in tooltip*/
 #tooltip p {
         margin: 0;
         font-family: sans-serif;
