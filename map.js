@@ -290,12 +290,6 @@ function updateGraph(data) {
         })
         .entries(data);
 
-
-    //var result = dataNest.filter(function (val, idx, arr) {
-    //    return $("." + val.key)//.attr("fill") != "#ccc"
-        // matching the data with selector status and hiding unselected lines from legend
-    //})
-
     //create svg line for each store
     var state = svg.selectAll(".line")
         .data(dataNest, function (d) {
@@ -311,9 +305,6 @@ function updateGraph(data) {
             return d.colors2 = colors2(d.key);
         })
         .style("fill", "none")
-        //.attr("id", function (d) {
-        //    return 'tag' + d.key.replace(/\s+/g, '');
-        //}) // assign ID
         .attr("d", function (d) {
 
             return stateline(d.values)
@@ -359,8 +350,6 @@ function updateGraph(data) {
                 if (val.active != true) {
                     return $("." + val.key); //if active is false i.e. not clicked then bring in the data
                 }
-                //return $("." + val.key).attr("fill") != "#ccc"
-                // matching the data with selector status
             })
 
             // Hide or show the lines based on the ID
@@ -443,12 +432,8 @@ function showAll() {
     cirs2.style.display = "block";
 
     var result = dataNest.filter(function (val, idx, arr) {
-        //if (val.active != true) {
         val.active = false;
         return $("." + val.key);
-        //}
-        //return $("." + val.key).attr("fill") != "#ccc"
-        // matching the data with selector status
     })
 
     // Hide or show the lines based on the ID
